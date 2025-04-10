@@ -1,0 +1,96 @@
+.header-container {
+    position: fixed;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    z-index: 10;
+}
+
+.header-item-container {
+    display: flex;
+}
+
+.header-item {
+    margin: 0px 10px;
+}
+.header-item-btn {
+    padding: 8px 15px;
+    border-radius: 3px;
+    color: grey;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header-item-btn.active {
+    background-color: #3cd2a5;
+    color: white;
+}
+
+.header-item-btn-newmessage {
+    border: none;
+    background-color: #485966;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 3px;
+    display: flex;
+    padding-bottom: -5px;
+    cursor: pointer;
+}
+
+.header-item-btn-newmessage span {
+    font-size: 15px;
+}
+
+.header-item-btn-newmessage mat-icon {
+    font-size: 15px;
+    padding-top: 8px;
+}
+
+// hamburger icon
+.header-icon-hamburger {
+    display: none;
+}
+// tablet
+@media (max-width: 768px) { 
+    
+}
+
+// mobile
+@media (max-width: 767.98px) {
+    .header-icon-hamburger {
+        display: block;
+        position: relative;
+        cursor: pointer;
+    }
+    .header-icon-hamburger mat-icon{
+        font-size: 2rem;
+    }
+    .header-item-container {
+        position: absolute;
+        display: flex; 
+        flex-direction: column;
+        background-color: white;
+        top: 65px;
+        z-index: 888;
+        border-right: 1px solid #ccc;
+        height: 100vh;
+        gap: 10px;
+        left: 0;
+        transform: translateX(-100%); 
+        opacity: 0;
+        visibility: hidden; /* Added visibility for smoother transitions */
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out; /* Fixed typo in 'transform' and added spaces between properties */
+    }
+    
+    .header-item:nth-child(1) {
+        margin-top: 20px;
+    }
+    
+    .header-item-container.open {
+        transform: translateX(0);
+        opacity: 1;
+        visibility: visible; /* Menu becomes visible when open */
+    }
+
+
+}

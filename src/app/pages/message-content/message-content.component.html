@@ -1,0 +1,73 @@
+<div *ngIf="email(); else empty" class="message-container">
+  <div class="message-header">
+    <div class="message-header-left">
+      <img src="https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
+        alt="">
+      <div class="message-infor mt-1">
+        <h6>{{email()?.sender}} &lt;support&#64;seatheme.com&gt;</h6>
+        <p>to <span>support&#64;seantheme.com, seantheme&#64;admin.com</span></p>
+      </div>
+    </div>
+    <div class="message-header-right">
+      <span>{{email()?.date | date:'longDate'}}</span>
+      <span>at {{email()?.time}}</span>
+    </div>
+  </div>
+  <div class="meesage-content">
+    <div class="message-content-header">
+      <h4>{{email()?.subject}}</h4>
+    </div>
+    <div *ngIf="email()?.haveFiles" class="meesage-content-files mt-3">
+      <div class="message-content-files-container">
+        <div class="message-content-file-item">
+          <div class="message-content-file-icon">
+            <mat-icon> insert_drive_file</mat-icon>
+          </div>
+          <div class="message-content-file-name">
+            invoice.zip
+          </div>
+        </div>
+        <div class="message-content-file-item">
+          <div class="message-content-file-icon">
+            <mat-icon> insert_drive_file</mat-icon>
+          </div>
+          <div class="message-content-file-name">
+            video.mp4
+          </div>
+        </div>
+        <div class="message-content-file-item">
+          <div class="message-content-file-icon">
+            <mat-icon> insert_drive_file</mat-icon>
+          </div>
+          <div class="message-content-file-name">
+            image.jpg
+          </div>
+        </div>
+      </div>
+      <div class="message-content-download">
+        <button class="message-download-btn">Download</button>
+      </div>
+    </div>
+    <div class="message-main-content" [innerHTML]="email()?.content ?? '' | lineBreak"></div>
+  </div>
+</div>
+
+<ng-template #empty>
+  <div class="empty-state-container">
+    <div class="empty-state-content">
+      <mat-icon class="empty-state-icon">email</mat-icon>
+      <h2 class="empty-state-title">No Email Selected</h2>
+      <p class="empty-state-message">Please select an email from the list to view its content.</p>
+      <div class="empty-state-actions">
+        <button mat-stroked-button color="primary" class="action-button">
+          <mat-icon>refresh</mat-icon>
+          Refresh
+        </button>
+        <button mat-stroked-button color="accent" class="action-button">
+          <mat-icon>search</mat-icon>
+          Search
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,19 @@
+<div class="email-list-container">
+  <div class="email-item" *ngFor="let email of emails()" 
+       (click)="selectEmail(email)"
+       [class.active]="selectedEmail()?.id === email.id"
+  >
+    <div class="email-item-left">
+      <mat-checkbox class="example-margin"></mat-checkbox>
+      <mat-icon [style.display]="email.haveFiles ? 'block' : 'none'">link</mat-icon>
+    </div>
+    <div class="email-item-right">
+      <div class="email-item-right-header">
+        <div class="sender">{{email.sender}}</div>
+        <div class="time">{{email.date | relativeTime}}</div>
+      </div>
+      <div class="subject">{{email.subject}}</div>
+      <div class="content-preview">{{email.content | wordLimit}}</div>
+    </div>
+  </div>
+</div>

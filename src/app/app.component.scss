@@ -1,0 +1,19 @@
+.header-container {
+    border-bottom: 1px solid #ccc;
+}
+.content-container {
+    height: 100%;
+    margin-top: 64px;
+}
+.content-left {
+    border-right: 1px solid #ccc;
+    height: 100%;
+    overflow-y: auto;
+}
+.content-right {
+    overflow-y: auto;
+}
+.content-row {
+    display: flex;
+    height: 100%;
+}

@@ -1,0 +1,13 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'wordLimit'
+})
+export class WordLimitPipe implements PipeTransform {
+  transform(value: string, wordLimit: number = 12): string {
+    if (!value) return '';
+    const words = value.split(' ');
+    if (words.length <= wordLimit) return value;
+    return words.slice(0, wordLimit).join(' ') + '...';
+  }
+}
