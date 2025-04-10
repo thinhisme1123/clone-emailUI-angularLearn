@@ -1,110 +1,35 @@
 import { Injectable, computed, signal } from '@angular/core';
 import { Email } from '../models/Email';
+import { HttpClient } from '@angular/common/http';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmailDataService {
-  // fetch api and store data in this array
-  private readonly _emails = signal<Email[]>([
-    {
-      id: 1,
-      sender: 'John Smith',
-      subject: 'Project Update Meeting',
-      content: 'Dear Team,\n\nI hope this email finds you well. I wanted to follow up on our productive discussion from yesterday regarding the project milestones. The progress we\'ve made so far is impressive, but there are a few key areas we need to address.\n\nI\'ve attached the updated project timeline and resource allocation documents for your review. Please take some time to go through them before our meeting tomorrow. I\'ve highlighted the sections that require immediate attention, particularly the Q4 deliverables.\n\nDuring tomorrow\'s meeting, we\'ll focus on addressing any concerns and finalizing the implementation strategy. Please come prepared with your thoughts and suggestions, especially regarding the technical challenges we discussed.\n\nLooking forward to our discussion tomorrow.\n\nBest regards,\nJohn',
-      time: '7:00pm',
-      date: new Date(),
-      haveFiles: true
-    },
-    {
-      id: 2,
-      sender: 'LinkedIn',
-      subject: 'New job opportunities for you',
-      content: 'Hi Professional,\n\nWe hope you\'re having a great day! Based on your profile and career interests, we\'ve identified several exciting opportunities that we believe would be perfect for you.\n\nWe found 6 new positions that align with your skills and experience in software development. These roles are from top-tier companies known for their innovative work culture and excellent benefits.\n\nSome highlights include Senior Developer positions at Fortune 500 companies, Tech Lead roles at promising startups, and remote opportunities with competitive compensation packages.\n\nClick below to explore these opportunities and submit your application. Don\'t miss out on these exciting career possibilities!\n\nBest regards,\nYour LinkedIn Team',
-      time: '5:00pm',
-      date: new Date(new Date().setHours(new Date().getHours() - 2)),
-      haveFiles: false
-    },
-    {
-      id: 3,
-      sender: 'Sarah Williams',
-      subject: 'Birthday Party Invitation',
-      content: 'Dear Friend,\n\nI hope this invitation finds you in great spirits! I\'m excited to invite you to my birthday celebration this Saturday at 7 PM. It\'s going to be a wonderful evening filled with good food, music, and amazing company.\n\nThe party will be held at The Garden Terrace Restaurant, and I\'ve arranged for a special menu that includes both vegetarian and non-vegetarian options. There will also be live music and some fun activities I\'ve planned.\n\nPlease let me know if you can make it, and if you have any dietary restrictions I should be aware of. Feel free to bring a plus one - the more the merrier!\n\nLooking forward to celebrating with you!\n\nWarm regards,\nSarah',
-      time: '2:00pm',
-      date: new Date(new Date().setHours(new Date().getHours() - 5)),
-      haveFiles: true
-    },
-    {
-      id: 4,
-      sender: 'Amazon',
-      subject: 'Your Order Has Shipped',
-      content: 'Dear Valued Customer,\n\nGreat news! Your order #12345 has been shipped and is on its way to you. We\'re writing to provide you with all the important details about your shipment.\n\nYour package is being handled with care and is scheduled to arrive on Thursday. You can track your package\'s journey in real-time using the tracking number provided below.\n\nIf you need to make any changes to your delivery preferences or have any questions about your order, please don\'t hesitate to contact our 24/7 customer service team.\n\nThank you for shopping with Amazon!\n\nBest regards,\nThe Amazon Team',
-      time: '8:30am',
-      date: new Date(new Date().setDate(new Date().getDate() - 1)),
-      haveFiles: false
-    },
-    {
-      id: 5,
-      sender: 'Michael Chen',
-      subject: 'Client Presentation Draft',
-      content: 'Hi Team,\n\nI\'ve just finished preparing the draft presentation for tomorrow\'s important client meeting, and I need your expert eyes on this as soon as possible.\n\nThe presentation covers our proposed strategy, timeline, and budget allocations for the next quarter. I\'ve included detailed analytics and case studies to support our recommendations. Pay special attention to slides 15-20, which outline our innovative approach to their current challenges.\n\nPlease review and provide your feedback, especially regarding the technical feasibility of the proposed solutions. If you notice any areas that need strengthening or have additional insights to share, please let me know.\n\nI need your inputs by 5 PM today to incorporate any changes before tomorrow\'s meeting.\n\nBest regards,\nMichael',
-      time: '11:45am',
-      date: new Date(new Date().setDate(new Date().getDate() - 1)),
-      haveFiles: true
-    },
-    {
-      id: 6,
-      sender: 'Netflix',
-      subject: 'New Shows Added to Your List',
-      content: 'Dear Subscriber,\n\nWe\'re excited to share some fantastic new additions to Netflix that we think you\'ll love! Based on your viewing history and preferences, we\'ve curated a special selection of shows and movies just for you.\n\nOur latest additions include award-winning dramas, thrilling documentaries, and exclusive Netflix originals. We\'ve noticed you enjoy mystery and science fiction content, so we\'ve highlighted several new releases in these genres.\n\nDon\'t forget to check out our trending section, where you\'ll find the most popular shows among Netflix viewers worldwide. We\'ve also added new episodes to some of your favorite series.\n\nStart exploring these new additions today and let us know what you think!\n\nHappy Streaming,\nYour Netflix Team',
-      time: '3:15pm',
-      date: new Date(new Date().setDate(new Date().getDate() - 2)),
-      haveFiles: false
-    },
-    {
-      id: 7,
-      sender: 'HR Department',
-      subject: 'Monthly Team Building Event',
-      content: 'Dear Colleagues,\n\nWe\'re thrilled to announce our upcoming monthly team building event! This month, we\'ve planned something special that we believe will bring out the best in our team while creating lasting memories.\n\nWe\'ve arranged several exciting activities, including outdoor challenges, creative workshops, and collaborative problem-solving exercises. These activities are designed to strengthen our team bonds and enhance our communication skills.\n\nTo ensure we create the best experience for everyone, please fill out the attached preference form. This will help us accommodate any dietary restrictions and activity preferences you may have.\n\nThe event will be held next Friday, and we\'ll provide all the necessary details once we receive your responses.\n\nBest regards,\nHR Team',
-      time: '9:00am',
-      date: new Date('2023-08-21'),
-      haveFiles: true
-    },
-    {
-      id: 8,
-      sender: 'Tech Support',
-      subject: 'RE: System Access Issue',
-      content: 'Dear User,\n\nThank you for your patience while we worked on resolving your system access issue. I\'m pleased to inform you that our technical team has successfully addressed the problem you reported.\n\nWe\'ve implemented additional security measures to prevent similar issues in the future. The solution included updating your user permissions and refreshing your system credentials.\n\nPlease attempt to log in to the system now and verify that everything is working as expected. If you encounter any other issues or need further assistance, don\'t hesitate to reach out.\n\nWe appreciate your understanding during this process.\n\nBest regards,\nTech Support Team',
-      time: '4:45pm',
-      date: new Date('2023-08-20'),
-      haveFiles: false
-    },
-    {
-      id: 9,
-      sender: 'David Wilson',
-      subject: 'Vacation Plans',
-      content: 'Hi Team,\n\nI hope you\'re all doing well. I\'m writing to discuss the upcoming project deadlines as I\'ll be taking some time off for a much-needed vacation.\n\nI\'ve prepared a detailed handover document outlining all my current projects and their status. I\'ve also included important deadlines, key contacts, and any potential challenges that might arise during my absence.\n\nBefore I leave, I\'d like to ensure we\'re aligned on all deliverables and that there won\'t be any bottlenecks while I\'m away. Could we schedule a quick meeting to go through everything?\n\nI\'ll be out of office from the 15th to the 30th, but I\'ll make sure everything is properly handled before my departure.\n\nBest regards,\nDavid',
-      time: '10:30am',
-      date: new Date('2023-08-18'),
-      haveFiles: true
-    },
-    {
-      id: 10,
-      sender: 'Marketing Team',
-      subject: 'Q4 Marketing Strategy',
-      content: 'Dear Team,\n\nI\'m reaching out regarding our Q4 marketing strategy draft, which represents our ambitious plans for the final quarter of the year. We\'ve put together a comprehensive approach that we believe will drive significant results.\n\nThe strategy encompasses several key initiatives, including a major product launch, holiday season campaigns, and an enhanced digital presence strategy. We\'ve also incorporated the lessons learned from our Q3 performance and market research findings.\n\nWe\'ve attached the detailed strategy document for your review. Pay special attention to the budget allocations, timeline, and resource requirements sections. Your expertise and insights will be crucial in refining this strategy.\n\nPlease review the document and provide your feedback by Friday. We\'ll be discussing all inputs during next week\'s strategy meeting.\n\nBest regards,\nMarketing Team',
-      time: '1:15pm',
-      date: new Date('2023-08-15'),
-      haveFiles: true
-    }
-  ]);
+  private readonly _emails = signal<Email[]>([]);
 
-  //Public signal getter
   emails = this._emails.asReadonly();
 
-  // Computed email by id
   getEmailById = (id: number) =>
     computed(() => this._emails().find(email => email.id === id));
 
-  constructor() {}
+  constructor(private http: HttpClient) {
+    this.loadEmails();
+  }
+
+  private loadEmails() {
+    this.http.get<Email[]>('/assets/emails.json')
+      .pipe(
+        map(emails => emails.map(email => ({
+          ...email,
+          date: new Date(email.date) 
+        })))
+      )
+      .subscribe({
+        next: (emails) => this._emails.set(emails),
+        error: (err) => console.error('Failed to load emails:', err)
+      });
+  }
 }

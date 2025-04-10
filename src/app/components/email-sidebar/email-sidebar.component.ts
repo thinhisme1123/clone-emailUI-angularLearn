@@ -11,7 +11,7 @@ import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-email-sidebar',
   standalone: true,
-  imports: [MatCheckboxModule, NgFor, WordLimitPipe, RelativeTimePipe,MatIcon],
+  imports: [MatCheckboxModule, WordLimitPipe, RelativeTimePipe,MatIcon],
   templateUrl: './email-sidebar.component.html',
   styleUrl: './email-sidebar.component.scss'
 })

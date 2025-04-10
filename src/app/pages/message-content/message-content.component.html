@@ -1,4 +1,5 @@
-<div *ngIf="email(); else empty" class="message-container">
+@if (email()) {
+<div class="message-container">
   <div class="message-header">
     <div class="message-header-left">
       <img src="https://img.freepik.com/premium-vector/person-with-blue-shirt-that-says-name-person_1029948-7040.jpg"
@@ -51,23 +52,23 @@
     <div class="message-main-content" [innerHTML]="email()?.content ?? '' | lineBreak"></div>
   </div>
 </div>
-
-<ng-template #empty>
-  <div class="empty-state-container">
-    <div class="empty-state-content">
-      <mat-icon class="empty-state-icon">email</mat-icon>
-      <h2 class="empty-state-title">No Email Selected</h2>
-      <p class="empty-state-message">Please select an email from the list to view its content.</p>
-      <div class="empty-state-actions">
-        <button mat-stroked-button color="primary" class="action-button">
-          <mat-icon>refresh</mat-icon>
-          Refresh
-        </button>
-        <button mat-stroked-button color="accent" class="action-button">
-          <mat-icon>search</mat-icon>
-          Search
-        </button>
-      </div>
+}
+@else {
+<div class="empty-state-container">
+  <div class="empty-state-content">
+    <mat-icon class="empty-state-icon">email</mat-icon>
+    <h2 class="empty-state-title">No Email Selected</h2>
+    <p class="empty-state-message">Please select an email from the list to view its content.</p>
+    <div class="empty-state-actions">
+      <button mat-stroked-button color="primary" class="action-button">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      <button mat-stroked-button color="accent" class="action-button">
+        <mat-icon>search</mat-icon>
+        Search
+      </button>
     </div>
   </div>
-</ng-template>
+</div>
+}
