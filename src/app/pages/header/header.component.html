@@ -21,7 +21,7 @@
         <a class="header-item-btn" [class.active]="isActive('Junk')" (click)="setActiveMenuItem('Junk')">Junk</a>
       </div>
       <div class="header-item">
-        <button class="header-item-btn-newmessage">
+        <button (click)="newMessageClick()" class="header-item-btn-newmessage">
           <span>New Message</span>
           <mat-icon>edit</mat-icon>
         </button>

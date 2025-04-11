@@ -1,0 +1,33 @@
+<div class="compose-container">
+  <div class="compose-header">
+    <span>New Message</span>
+    <button class="close-btn" (click)="closeNewMessage()">✕</button>
+  </div>
+
+  <div class="compose-body">
+    <input type="text" class="input" placeholder="To" [(ngModel)]="to"/>
+    <input type="text" class="input" placeholder="Subject" [(ngModel)]="subject" />
+
+    <quill-editor [(ngModel)]="content" [modules]="{
+    toolbar: [['bold', 'italic', 'underline'], ['link']]
+  }" [styles]="{ height: '600px' }"></quill-editor>
+
+
+    <div class="file-upload">
+      <label for="fileInput">📎 Attach files</label>
+      <input id="fileInput" type="file" (change)="onFilesSelected($event)" multiple />
+    </div>
+
+
+    <div class="file-preview" *ngIf="files.length > 0">
+      <div class="file-item" *ngFor="let file of files; let i = index">
+        <span>{{ file.name }}</span>
+        <button (click)="removeFile(i)">❌</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="compose-footer">
+    <button class="send-btn" (click)="sendEmail()">Send</button>
+  </div>
+</div>

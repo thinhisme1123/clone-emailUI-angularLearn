@@ -17,6 +17,10 @@ export class HeaderComponent {
 
   isOpenEmailList = output<boolean>()
 
+  _isOpenNewMessage = false
+  isOpenNewMessage = output<boolean>()
+
+
   setActiveMenuItem(menuItem: string): void {
     this.activeMenuItem = menuItem;
     this.isMenuOpen = !this.isMenuOpen;
@@ -28,7 +32,6 @@ export class HeaderComponent {
 
   onInboxClick() {
     this.isOpenEmailList.emit(!this.isOpenEmailItem)
-    console.log(this.isOpenEmailItem);
   }
 
   isActive(menuItem: string): boolean {
@@ -37,6 +40,17 @@ export class HeaderComponent {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
 
+  newMessageClick() {
+    this.isMenuOpen = !this.isMenuOpen;
+    // set menu item fasle
+    this.isOpenEmailItem = false
+    this.isOpenEmailList.emit(this.isOpenEmailItem)
+
+
+    this._isOpenNewMessage = true
+    this.isOpenNewMessage.emit(this._isOpenNewMessage)
+    
   }
 }

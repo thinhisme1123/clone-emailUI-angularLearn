@@ -1,22 +1,21 @@
 <div class="header-container">
-  <app-header
-    (isOpenEmailList)="handleOpenEmailList($event)"
-  ></app-header>
+  <app-header (isOpenEmailList)="handleOpenEmailList($event)" (isOpenNewMessage)="handleOpenNewMessage($event)">
+  </app-header>
 </div>
 <div class="content-container">
   <div class="content-row">
-    <div class="content-left col-xl-3 col-lg-4 col-md-5" [ngClass]="{'col-sm-12 col-12' : isOpenEmailList()}" [ngClass]="{'col-sm-12 col-12' : !isOpenEmailDetail()}">
-      <app-email-sidebar
-        (selectingEmail)="selectedEmail.set($event)"
-        (isOpenDetailEmail)="handleOpenEmailDetail($event)"
-      >
+    <div class="content-left col-xl-3 col-lg-4 col-md-5" [ngClass]="{'col-sm-12 col-12' : isOpenEmailList()}"
+      [ngClass]="{'col-sm-12 col-12' : !isOpenEmailDetail()}">
+      <app-email-sidebar (selectingEmail)="selectedEmail.set($event)"
+        (isOpenDetailEmail)="handleOpenEmailDetail($event)">
       </app-email-sidebar>
     </div>
-    <div class="content-right col-xl-9 col-lg-8 col-md-7" [ngClass]="{'col-sm-12 col-12' : !isOpenEmailList()}" [ngClass]="{'col-sm-12 col-12' : isOpenEmailDetail()}">
-      <app-message-content
-        [email]="selectedEmail()"
-      ></app-message-content>
+
+    <div class="content-right col-xl-9 col-lg-8 col-md-7" [ngClass]="{'col-sm-12 col-12' : !isOpenEmailList()}"
+      [ngClass]="{'col-sm-12 col-12' : isOpenEmailDetail()}">
+      <ng-container #dynamicContentRight></ng-container>
     </div>
+
 
   </div>
 </div>

@@ -32,5 +32,6 @@ export class EmailSidebarComponent {
     // lấy giá trị trực tiếp của một signal là phải ()
     console.log('Selected Email:', this.selectedEmail());
     this.isOpenDetailEmail.emit(!this.isOpenDetail)
+    
   }
 }
